@@ -22,7 +22,7 @@ module.exports = function Item (item) {
 	// unit of measure for cost
 	this.uom = item.uom;
 
-	return { catno, desc, mfr, qty, cost, defMgn, categories, transactions, url };
+	return { catno, desc, mfr, qty, cost, defMgn, categories, transactions, url, uom };
 
 }
 

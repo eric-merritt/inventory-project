@@ -2,4 +2,27 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  .sidenav
+    ul
+      h3 Categories
+      each i in categories 
+        li
+          a.dropdownLink(href=i.url.toLowerCase())   
+            ul.dropdownList= i.name
+              each n in i.subcategories
+                a(href=i.url.toLowerCase() + '/' + n.toLowerCase() )
+                  li= n
+  .productArea 
+    each item in items 
+      .productCard  
+        img(src=item.catno alt=item.catno)
+        strong= 'Cat. #: ' + item.catno 
+        p Description: #{item.desc} 
+        p Manufacturer: #{item.mfr}
+        p Qty: #{item.qty.avail} 
+        p Price: #{(item.cost / (1 - item.defMgn)).toFixed(2) + (item.uom !== undefined ? '/' + item.uom : '')}
+        
+        <input type='button' method='GET' action='/products/' + item.url value='View Item'> 
+
+            
+            
