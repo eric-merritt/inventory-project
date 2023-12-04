@@ -7,6 +7,9 @@ const database = client.db('inventory');
 const itemsColl = database.collection('items');
 const categoriesColl = database.collection('categories');
 
+var Fraction = require('fractional').Fraction;
+
+
  
 async function clearDatabase () {
 
@@ -58,8 +61,8 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
   let allocQty = Math.floor(Math.random() * 19) * 100; 
 
   const emt = Item({
-    catno: conduitSizes[i] + '-EMT',
-    desc:  conduitSizes[i] + `-EMT - ${conduitSizes[i]}" x 10FT EMT`,
+    catno: new Fraction(conduitSizes[i]).toString().split(' ').join('').split('/').join('') + '-EMT',
+    desc:  new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '-EMT - ' + new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '" x 10FT EMT',
     mfr: 'Wheatland Tube',
     qty: {
       stock: stockQty,
@@ -71,15 +74,16 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
     defMgn: .121,
     categories: ['Conduit', 'EMT'],
     transactions: [],
-    uom: 'c'
+    uom: 'c ft', 
+    img: '/images/emt.jpg'
   })
 
   conduit.items.push(emt.catno);
 
   const pvc = Item({
-    catno: conduitSizes[i] + '-PVC',
-    desc:  conduitSizes[i] + `-PVC - ${conduitSizes[i]}" x 10FT PVC`,
-    mfr: 'Wheatland Tube',
+    catno: new Fraction(conduitSizes[i]).toString().split(' ').join('').split('/').join('') + '-PVC',
+    desc:  new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '-PVC - ' + new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '" x 10FT PVC',
+    mfr: 'Prime Conduit',
     qty: {
       stock: stockQty,
       onOrder: 200,
@@ -90,7 +94,8 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
     defMgn: .121,
     categories: ['Conduit', 'PVC'],
     transactions: [],
-    uom: 'c'
+    uom: 'c ft',
+    img: '/images/pvc.jpg'
   })
 
   conduit.items.push(pvc.catno);
@@ -102,7 +107,7 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
 
 	const coupling = Item({
 		catno: 'TK' + j + 'A',
-    desc:  'TK' + j + `A - ${conduitSizes[i]}" EMT Set-Screw Coupling`,
+    desc:  'TK' + j + 'A - ' + new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '" EMT Set-Screw Coupling',
     mfr: 'ABB',
     qty: {
       stock: stockQty,
@@ -114,14 +119,15 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
     defMgn: .275,
     categories: ['Conduit Fittings'],
     transactions: [],
-    uom: 'c'
+    uom: 'ea',
+    img: '/images/couplings.jpg'
   })
 
   conduitFittings.items.push(coupling.catno)
 
 	const connector = Item({
 		catno: 'TC' + j + 'A',
-    desc:  'TC' + j + `A - ${conduitSizes[i]}" EMT Set-Screw Connector`,
+    desc:  'TC' + j + 'A - ' + new Fraction(conduitSizes[i]).toString().split(' ').join('-') + '" EMT Set-Screw Connector',
     mfr: 'ABB',
     qty: {
       stock: stockQty,
@@ -133,7 +139,8 @@ for (let i = 0; i < conduitSizes.length; i++ ) {
     defMgn: .275,
     categories: ['Conduit Fittings'],
     transactions: [],
-    uom: 'c'
+    uom: 'ea',
+    img: '/images/connectors.jpg'
   })
 
     conduitFittings.items.push(connector.catno);
@@ -156,16 +163,6 @@ async function buildDatabase () {
 
   };
 
-
-  
-		// 		const result = await categoryColl.updateOne(
-		// 			{ name: category },
-		// 			{ $push: { items: { $each: Array.from(categoryMatches) }}}
-		// 		)
-        
-		//     console.log('Success: Item references nested in categories documents.')
-
-		// }
 
 module.exports = async function populateDb() {
 try {

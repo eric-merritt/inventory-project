@@ -1,0 +1,20 @@
+extends layout 
+
+block content 
+
+	.productPage
+		.itemInfo 
+			h1.itemHeading= 'Modify Item Details for Cat # : ' + item.catno
+			img(src= item.img)
+			- var url = `/product/${item._id}/modify`
+			form.itemSummary(method='POST')
+				label(for='itemDesc') <strong>Description: </strong>
+					input(type='text' id='itemDesc' name='item-desc' value=item.desc) 
+				label(for='itemMfr') <strong>Manufacturer: </strong>
+					input(type='text' id='itemMfr' name='item-mfr' value=item.mfr)
+				label(for='itemQty') <strong>Quantity: </strong>
+					input(type='text' id='itemQty' name='item-qty' value=item.qty.stock)
+				label(for='itemPrice') <strong>Price: </strong> ( #{item.uom !== undefined ? '/' + item.uom : ''} )
+					input(type='text' id='itemPrice' name='item-price' value=(item.cost / (1 - item.defMgn)).toFixed(2))
+					
+				input(type='Submit' formaction=`${url}` value='Modify Item')

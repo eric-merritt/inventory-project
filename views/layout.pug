@@ -5,4 +5,20 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    h1= title
+      form(method='GET')
+        if currentView === 'list'
+          input(type='submit' formaction='/catalog_view' value='Catalog View')
+        else 
+          input(type='submit' formaction='/' value='List View')
+    .sidenav
+      ul
+        h3 Categories
+        each i in categories 
+          li
+            a.dropdownLink(href=i.url.toLowerCase())   
+              ul.dropdownList= i.name
+                each n in i.subcategories
+                  a(href=i.url.toLowerCase() + '/' + n.toLowerCase() )
+                    li=n 
+  block content

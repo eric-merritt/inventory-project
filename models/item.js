@@ -21,8 +21,9 @@ module.exports = function Item (item) {
 	this.url = `/products/${item.catno.toLowerCase()}`;
 	// unit of measure for cost
 	this.uom = item.uom;
+	this.img = item.img;
 
-	return { catno, desc, mfr, qty, cost, defMgn, categories, transactions, url, uom };
+	return { catno, desc, mfr, qty, cost, defMgn, categories, transactions, url, uom, img };
 
 }
 

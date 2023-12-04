@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+
+	.productPage
+		.itemInfo 
+			h1.itemHeading= 'Item Details for Cat # : ' + item.catno
+			img(src= item.img)
+			.itemSummary
+				p <strong>Description:</strong> #{item.desc} 
+				p <strong>Manufacturer:</strong> #{item.mfr}
+				p <strong>Qty:</strong> #{item.qty.avail} 
+				p <strong>Price:</strong> #{(item.cost / (1 - item.defMgn)).toFixed(2) + (item.uom !== undefined ? '/' + item.uom : '')}
+				- var url = `/product/${item._id}/modify`
+				form(method='GET' action=`${url}`)
+					input(type='Submit' value='Modify Item')

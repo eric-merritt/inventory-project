@@ -1,28 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  .sidenav
-    ul
-      h3 Categories
-      each i in categories 
-        li
-          a.dropdownLink(href=i.url.toLowerCase())   
-            ul.dropdownList= i.name
-              each n in i.subcategories
-                a(href=i.url.toLowerCase() + '/' + n.toLowerCase() )
-                  li= n
-  .productArea 
-    each item in items 
-      .productCard  
-        img(src=item.catno alt=item.catno)
-        strong= 'Cat. #: ' + item.catno 
-        p Description: #{item.desc} 
-        p Manufacturer: #{item.mfr}
-        p Qty: #{item.qty.avail} 
-        p Price: #{(item.cost / (1 - item.defMgn)).toFixed(2) + (item.uom !== undefined ? '/' + item.uom : '')}
-        
-        <input type='button' method='GET' action='/products/' + item.url value='View Item'> 
 
-            
-            
+  ul.inventoryList 
+    each item in items
+      li
+        ul.itemDetails
+          strong= 'Cat. #: ' + item.catno
+          li <strong>Description:</strong> #{item.desc} 
+          li <strong>Manufacturer:</strong> #{item.mfr}
+          li <strong>Qty:</strong> #{item.qty.avail} 
+          li <strong>Price:</strong> #{(item.cost / (1 - item.defMgn)).toFixed(2) + (item.uom !== undefined ? '/' + item.uom : '')}
+          - var url = `/product/${item._id}/`
+          form(method='GET' action=`${url}`)
+            input(type='Submit' value='View Item')
